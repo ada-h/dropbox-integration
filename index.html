@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dropbox Chooser Example</title>
+    <!-- Include the Dropbox JavaScript SDK -->
+    <script src="https://www.dropbox.com/static/api/2/dropbox.js" id="dropboxjs" data-app-key="YOUR_APP_KEY"></script>
+</head>
+<body>
+    <!-- Create a button to trigger the Dropbox Chooser -->
+    <button id="chooserButton">Choose Files from Dropbox</button>
+
+    <!-- Display selected files here -->
+    <div id="selectedFiles"></div>
+
+    <script>
+        // Replace 'YOUR_APP_KEY' with your actual Dropbox app key
+        var appKey = 'sl.BmwE9vmnchpOuCEscFDkeuECgAhj5Z5PtClvycBbs_-x0qT1i8P2Vb29glweClYZ_hfATzyXrLbWgm-ws5VJEABPWRc8m3lCmBBzFEgYcXY_cgaQnDM62IIWKVaHITX0sPJnbymCj8R1';
+
+        // Add an event listener to the button
+        document.getElementById('chooserButton').addEventListener('click', function () {
+            // Options for the Dropbox Chooser
+            var options = {
+                success: function (files) {
+                    // Handle the selected files here
+                    displaySelectedFiles(files);
+                },
+                cancel: function () {
+                    // Handle the cancellation here
+                    console.log('Chooser was canceled');
+                },
+                linkType: 'direct', // Change to 'preview' for shared links
+            };
+
+            // Open the Dropbox Chooser
+            Dropbox.choose(options);
+        });
+
+        // Function to display selected files
+        function displaySelectedFiles(files) {
+            var selectedFilesDiv = document.getElementById('selectedFiles');
+            selectedFilesDiv.innerHTML = '';
+
+            if (files.length === 0) {
+                selectedFilesDiv.textContent = 'No files selected.';
+            } else {
+                selectedFilesDiv.textContent = 'Selected Files:';
+                var fileList = document.createElement('ul');
+
+                files.forEach(function (file) {
+                    var listItem = document.createElement('li');
+                    listItem.textContent = file.name;
+                    fileList.appendChild(listItem);
+                });
+
+                selectedFilesDiv.appendChild(fileList);
+            }
+        }
+    </script>
+</body>
+</html>
